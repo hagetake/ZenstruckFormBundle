@@ -4,10 +4,11 @@ namespace Zenstruck\Bundle\FormBundle\Form\Type;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zenstruck\Bundle\FormBundle\Form\DataTransformer\AjaxEntityTransformer;
 
 /**
@@ -45,7 +46,7 @@ class TunnelEntityType extends AbstractType
         $view->vars['callback'] = $options['callback'];
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired(array('class'));
         $resolver->setDefaults(array(
@@ -56,11 +57,6 @@ class TunnelEntityType extends AbstractType
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'zenstruck_tunnel_entity';
+        return TextType::class;
     }
 }

@@ -102,9 +102,8 @@ class AjaxEntityTypeTest extends WebTestCase
     /**
      * @param \Symfony\Bundle\FrameworkBundle\Client $client
      * @param array                                  $formOptions
-     * @param bool                                   $controllerEnabled
-     *
-     * @return \Symfony\Component\Form\FormView
+     * @param bool                                   $useManager
+     * @return FormView
      */
     protected function createFormView(Client $client, array $formOptions, $useManager = true)
     {

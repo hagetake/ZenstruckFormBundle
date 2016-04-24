@@ -2,7 +2,8 @@
 
 namespace Zenstruck\Bundle\FormBundle\Tests\Form;
 
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Zenstruck\Bundle\FormBundle\Form\GroupedFormView;
@@ -19,10 +20,10 @@ class GroupedFormViewTest extends WebTestCase
         $formBuilder = $client->getContainer()->get('form.factory')->createBuilder();
 
         $form = $formBuilder
-            ->add('name', 'text', array('group' => 'first'))
-            ->add('address', 'text', array('group' => 'second'))
-            ->add('notes', 'text')
-            ->add('posts', 'text', array('group' => 'third'))
+            ->add('name', TextType::class, array('group' => 'first'))
+            ->add('address', TextType::class, array('group' => 'second'))
+            ->add('notes', TextType::class)
+            ->add('posts', TextType::class, array('group' => 'third'))
             ->getForm()
         ;
 
@@ -49,16 +50,17 @@ class GroupedFormViewTest extends WebTestCase
         ));
 
         $client = $this->prepareEnvironment();
-        $formBuilder = $client->getContainer()->get('form.factory')->createBuilder('form', null, array(
+        $formBuilder = $client->getContainer()->get('form.factory')->createBuilder(FormType::class, null, array(
                 'constraints' => $collectionConstraint
             )
         );
 
+        /** @var \Symfony\Component\Form\Form $form */
         $form = $formBuilder
-            ->add('name', 'text', array('group' => 'first'))
-            ->add('address', 'text', array('group' => 'second'))
-            ->add('notes', 'text')
-            ->add('posts', 'text', array('group' => 'third'))
+            ->add('name', TextType::class, array('group' => 'first'))
+            ->add('address', TextType::class, array('group' => 'second'))
+            ->add('notes', TextType::class)
+            ->add('posts', TextType::class, array('group' => 'third'))
             ->getForm()
         ;
 
@@ -68,7 +70,7 @@ class GroupedFormViewTest extends WebTestCase
             'notes' => 'Foo',
         );
 
-        $form->bind($data);
+        $form->submit($data);
 
         $groupedForm = new GroupedFormView($form->createView());
 
@@ -81,13 +83,13 @@ class GroupedFormViewTest extends WebTestCase
         $data['posts'] = 'Bar';
 
         $form = $formBuilder
-            ->add('name', 'text', array('group' => 'first'))
-            ->add('address', 'text', array('group' => 'second'))
-            ->add('notes', 'text')
-            ->add('posts', 'text', array('group' => 'third'))
+            ->add('name', TextType::class, array('group' => 'first'))
+            ->add('address', TextType::class, array('group' => 'second'))
+            ->add('notes', TextType::class)
+            ->add('posts', TextType::class, array('group' => 'third'))
             ->getForm()
         ;
-        $form->bind($data);
+        $form->submit($data);
 
         $groupedForm = new GroupedFormView($form->createView());
 
@@ -100,10 +102,10 @@ class GroupedFormViewTest extends WebTestCase
         $formBuilder = $client->getContainer()->get('form.factory')->createBuilder();
 
         $form = $formBuilder
-            ->add('name', 'text', array('group' => 'first'))
-            ->add('address', 'text', array('group' => 'second'))
-            ->add('notes', 'text')
-            ->add('posts', 'text', array('group' => 'third'))
+            ->add('name', TextType::class, array('group' => 'first'))
+            ->add('address', TextType::class, array('group' => 'second'))
+            ->add('notes', TextType::class)
+            ->add('posts', TextType::class, array('group' => 'third'))
             ->getForm()
         ;
 
@@ -122,10 +124,10 @@ class GroupedFormViewTest extends WebTestCase
         $formBuilder = $client->getContainer()->get('form.factory')->createBuilder();
 
         $form = $formBuilder
-            ->add('name', 'text')
-            ->add('address', 'text')
-            ->add('notes', 'text')
-            ->add('posts', 'text')
+            ->add('name', TextType::class)
+            ->add('address', TextType::class)
+            ->add('notes', TextType::class)
+            ->add('posts', TextType::class)
             ->getForm()
         ;
 
@@ -142,10 +144,10 @@ class GroupedFormViewTest extends WebTestCase
         $formBuilder = $client->getContainer()->get('form.factory')->createBuilder();
 
         $form = $formBuilder
-            ->add('name', 'text')
-            ->add('address', 'text')
-            ->add('notes', 'text')
-            ->add('posts', 'text')
+            ->add('name', TextType::class)
+            ->add('address', TextType::class)
+            ->add('notes', TextType::class)
+            ->add('posts', TextType::class)
             ->getForm()
         ;
 

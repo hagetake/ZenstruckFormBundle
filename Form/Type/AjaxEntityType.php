@@ -2,6 +2,7 @@
 
 namespace Zenstruck\Bundle\FormBundle\Form\Type;
 
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,7 +10,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
@@ -54,7 +55,7 @@ class AjaxEntityType extends AbstractType
         if ($value) {
             if ($multiple) {
                 // build id string
-                $ids = array();
+                $ids = [];
                 foreach ($value as $entity) {
                     $ids[] = $entity['id'];
                 }
@@ -98,37 +99,32 @@ class AjaxEntityType extends AbstractType
         }
 
         $view->vars['attr']['data-placeholder'] = $options['placeholder'];
-        
+
         $view->vars['attr']['data-minimum-input-length'] = $options['minimum_input_length'];
 
         $extraData = $options['extra_data'];
 
-        $serializer = new Serializer(array(), array(new JsonEncoder()));
+        $serializer = new Serializer([], [new JsonEncoder()]);
         $view->vars['attr']['data-extra-data'] = $serializer->serialize($extraData, 'json');
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array('class'));
-        $resolver->setDefaults(array(
-                'placeholder'          => 'Choose an option',
-                'use_controller'       => false,
-                'url'                  => null,
-                'repo_method'          => null,
-                'property'             => null,
-                'multiple'             => false,
-                'minimum_input_length' => 3,
-                'extra_data'           => array()
-            ));
+        $resolver->setRequired(['class']);
+        $resolver->setDefaults([
+            'placeholder'          => 'Choose an option',
+            'use_controller'       => false,
+            'url'                  => null,
+            'repo_method'          => null,
+            'property'             => null,
+            'multiple'             => false,
+            'minimum_input_length' => 3,
+            'extra_data'           => []
+        ]);
     }
 
     public function getParent()
     {
-        return 'text';
-    }
-
-    public function getName()
-    {
-        return 'zenstruck_ajax_entity';
+        return TextType::class;
     }
 }

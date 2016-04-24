@@ -18,9 +18,8 @@ zenstruck_form:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-    form:
-        resources:
-            - 'ZenstruckFormBundle:Twitter:form_bootstrap_layout.html.twig'
+    form-themes:
+        - 'ZenstruckFormBundle:Twitter:form_bootstrap_layout.html.twig'
 
 doctrine:
     dbal:
